@@ -1,0 +1,172 @@
+<link rel="stylesheet" href="https://ise.web.app/load/l.css">
+<app>
+app('Yumi');
+app.icon(1);
+app.cover(1);
+app.info("Nai's Yumi");
+app.key("links, loader, dynamic");
+</app>
+
+<bon item-left>
+
+<say comfort bold m2>
+<i m2 class="fa-solid fa-star"> </i>yumi</say>
+
+</bon>
+
+<span id="l1">
+<nav layer='2' bbg bol2>
+
+<row>
+<tap pop>
+<i m class="fa-solid fa-tent"></i>
+</tap>
+<tap do="hide('#l1');hide('#l2')">
+<i m class="fa-solid fa-tv"></i>
+</tap>
+<tap do="hide('#l1');hide('#l3')">
+<i m class="fa-solid fa-code"></i>
+</tap>
+</row>
+</nav>
+</span>
+
+<span hide id="l2">
+<nav layer='2' bbg bol2>
+<row>
+<tap do="hide('#l1');hide('#l2')">
+<i m class="fa-solid fa-tent"></i>
+</tap>
+
+<tap pop>
+<i m class="fa-solid fa-tv"></i>
+</tap>
+
+<tap do="hide('#l3');hide('#l2')">
+<i m class="fa-solid fa-code"></i>
+</tap>
+</row>
+</nav>
+</span>
+
+<span hide id="l3">
+<nav layer='2' bbg bol2>
+<row>
+<tap do="hide('#l1');hide('#l3')">
+<i m class="fa-solid fa-tent"></i>
+</tap>
+
+<tap do="hide('#l2');hide('#l3')">
+<i m class="fa-solid fa-tv"></i>
+</tap>
+<tap pop>
+<i m class="fa-solid fa-code"></i>
+</tap>
+</row>
+</nav>
+</span>
+
+<bon big=""></bon>
+
+
+<style>
+*{
+--b:#101010 !important;
+}
+tap:hover,tap[pop] {
+background-color: var(--p2);
+}
+
+iframe{
+height: 3in;
+width: 4.4in;
+}
+</style>
+
+<script src="https://ise.web.app/load/l.js"></script>
+<script>
+loadLinks = (applinks, wher) => {
+let lines = applinks.trim().split("\n");
+let currentGroup = null;
+
+lines.forEach(line => {
+line = line.trim();
+
+if (line === "---") {
+currentGroup = null;
+return;
+}
+
+if (!line.includes('>') && line) {
+cg = bon.add('bon');
+cg.at('item-left');
+cgt = bon.add('say');
+cg.put(cgt);
+cgt.at('comfort');
+cgt.at('bold');
+cgt.text = line;
+bon(wher).put(cg);
+} else if (line.includes('>')) {
+let [name, link] = line.split('>').map(s => s.trim());
+if (link.includes('youtube.com')) {
+let videoId = link.split('v=')[1];
+let iframe = bon.add('iframe');
+iframe.at('src', `https://www.youtube.com/embed/${videoId}?si=-xETQbR7wrPSxOfh`);
+iframe.at('title', 'YouTube video player');
+iframe.at('frameborder', '0');
+iframe.at('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share');
+iframe.at('referrerpolicy', 'strict-origin-when-cross-origin');
+iframe.at('allowfullscreen', '');
+bon(wher).put(iframe);
+} else {
+let newLink = bon.add('tap');
+newLink.text = name;
+newLink.at('comfort');
+newLink.at('bold');
+newLink.at('bol2');
+newLink.at('go', `https://${link}`);
+bon(wher).put(newLink);
+}
+}
+});
+}
+
+loadLinks(`
+
+Home
+
+Monitor > https:///calendar/u/1/r/tasks
+
+---
+
+Victory
+Tanging Kailangan > youtube.com/watch?v=kzCrun0UXyo
+
+`,'#l1')
+loadLinks(`
+
+
+Qwer
+Harmony of Stars - QWER > youtube.com/watch?v=On6Pm4M-dQQ
+
+My Name is Sunny - QWER > youtube.com/watch?v=AlirzLFEHUI
+
+TBH - QWER > youtube.com/watch?v=ImuWa3SJulY
+
+Ferrys Wheel - QWER > youtube.com/watch?v=t1uz-n3BFmQ
+
+Fake Idol - QWER > youtube.com/watch?v=JFGRPgYeu38
+
+Discord - QWER > youtube.com/watch?v=WGm2HmXeeRI
+
+
+
+`, '#l2');
+
+loadLinks(`
+Code
+Blogs > gist.github.com/actwu
+Portfolio > actwu.github.io
+Git > github.com/actwu
+`, '#l3');
+</script>
