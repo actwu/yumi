@@ -10,13 +10,13 @@ app.key("links, loader, dynamic");
 <bon item-left>
 
 <say comfort bold m2>
-<i m2 class="fa-solid fa-star"> </i>yumi</say>
+<i m2 class="fa-solid fa-star"> </i>yumi
+</say>
 
 </bon>
 
 <span id="l1">
 <nav layer='2' bbg bol2>
-
 <row>
 <tap pop>
 <i m class="fa-solid fa-tent"></i>
@@ -68,16 +68,16 @@ app.key("links, loader, dynamic");
 
 <bon big=""></bon>
 
-
 <style>
-*{
---b:#101010 !important;
+* {
+--b: #101010 !important;
 }
-tap:hover,tap[pop] {
+
+tap:hover, tap[pop] {
 background-color: var(--p2);
 }
 
-iframe{
+iframe {
 height: 1.5in;
 width: 2.5in;
 }
@@ -108,59 +108,59 @@ cgt.text = line;
 bon(wher).put(cg);
 } else if (line.includes('>')) {
 let [name, link] = line.split('>').map(s => s.trim());
-if (link.includes('youtube.com')) {
-let videoId = link.split('v=')[1];
-let iframe = bon.add('iframe');
-iframe.at('src', `https://www.youtube.com/embed/${videoId}?si=-xETQbR7wrPSxOfh`);
-iframe.at('title', 'YouTube video player');
-iframe.at('frameborder', '0');
-iframe.at('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share');
-iframe.at('referrerpolicy', 'strict-origin-when-cross-origin');
-iframe.at('allowfullscreen', '');
-bon(wher).put(iframe);
+
+// Check if the link is a YouTube video or channel
+if (link.includes('youtube.com/watch')) {
+  // It's a video, embed it as an iframe
+  let videoId = link.split('v=')[1];
+  let iframe = bon.add('iframe');
+  iframe.at('src', `https://www.youtube.com/embed/${videoId}?si=-xETQbR7wrPSxOfh`);
+  iframe.at('title', 'YouTube video player');
+  iframe.at('frameborder', '0');
+  iframe.at('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share');
+  iframe.at('referrerpolicy', 'strict-origin-when-cross-origin');
+  iframe.at('allowfullscreen', '');
+  bon(wher).put(iframe);
+} else if (link.includes('youtube.com/results')) {
+  // It's a search result or channel, treat as a normal tap link
+  let newLink = bon.add('tap');
+  newLink.text = name;
+  newLink.at('comfort');
+  newLink.at('bold');
+  newLink.at('bol2');
+  newLink.at('go', `https://${link}`);
+  bon(wher).put(newLink);
 } else {
-let newLink = bon.add('tap');
-newLink.text = name;
-newLink.at('comfort');
-newLink.at('bold');
-newLink.at('bol2');
-newLink.at('go', `https://${link}`);
-bon(wher).put(newLink);
+  // It's any other link (non-video), treat as a normal tap link
+  let newLink = bon.add('tap');
+  newLink.text = name;
+  newLink.at('comfort');
+  newLink.at('bold');
+  newLink.at('bol2');
+  newLink.at('go', `https://${link}`);
+  bon(wher).put(newLink);
 }
 }
 });
 }
 
 loadLinks(`
-
 Home
-
 Task > https:///calendar/u/1/r/tasks
-
 ---
-
 Victory
 Tanging Kailangan > youtube.com/watch?v=kzCrun0UXyo
+`, '#l1');
 
-`,'#l1')
 loadLinks(`
-
-
 Qwer
+More > https://www.youtube.com/results?search_query=qwer
 Harmony of Stars - QWER > youtube.com/watch?v=On6Pm4M-dQQ
-
 My Name is Sunny - QWER > youtube.com/watch?v=AlirzLFEHUI
-
 TBH - QWER > youtube.com/watch?v=ImuWa3SJulY
-
 Ferrys Wheel - QWER > youtube.com/watch?v=t1uz-n3BFmQ
-
 Fake Idol - QWER > youtube.com/watch?v=JFGRPgYeu38
-
 Discord - QWER > youtube.com/watch?v=WGm2HmXeeRI
-
-
-
 `, '#l2');
 
 loadLinks(`
